@@ -1,5 +1,6 @@
 document.getElementById('search').addEventListener('click', event => {
   event.preventDefault()
+  document.getElementById('anime').innerHTML = ''
 
   axios.get(`https://kitsu.io/api/edge/anime?filter[text]=${document.getElementById('name').value}`)
     .then(res => {
@@ -19,6 +20,7 @@ document.getElementById('search').addEventListener('click', event => {
                       <p>Rating: ${anime[i].attributes.averageRating}</p>
                       <p>Status: ${anime[i].attributes.status}</p>
                       <p>Number of Episodes: ${anime[i].attributes.episodeCount}</p>
+                      <p>Categories: ${anime[i].relationships.categories.links.related}</p>
                     </div>
                   </div>
                 </div>
