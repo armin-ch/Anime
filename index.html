@@ -6,20 +6,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anime</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="./assets/cs/style.css">
 </head>
 
 <body>
+  <div class="container">
+  <h1>Kitsu Anime Search</h1>
   <form>
-    <p>
-      <label for="name">name</label>
+    <label for="name">name</label>
+    <div class="row">
+    <div class="col s12 m10">
       <input type="text" name="name" id="name">
-    </p>
-    <p>
-      <button id="search">Search</button>
-    </p>
+    </div>
+    <div class="col s12 m2">
+      <button id="search" class="btn waves-effect waves-light">Search <i class="material-icons right">send</i></button>
+    </div>
+    </div>
   </form>
-  <div id="anime"></div>
+  <div id="anime" class="row"></div>
+</div>
+
+  
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
@@ -31,11 +40,23 @@
         .then(res => {
           let anime = res.data.data
           for (i=0; i<10; i++){
-            let source = anime[i].attributes.posterImage.tiny
+            let source = anime[i].attributes.posterImage.medium
             console.log(anime[i])
             document.getElementById('anime').innerHTML += `
-              <h3>English Title: ${anime[i].attributes.titles.en} <br> Japanese Title: ${anime[i].attributes.titles.ja_jp}</h3>
-              <img src='${source}' alt=''>
+                <div class="col s12 m4">
+                  <div class="card">
+                    <div class="card-image">
+                      <img src="${source}" alt="${anime[i].attributes.titles.en_jp}">
+                      <span class="card-title">${anime[i].attributes.titles.en_jp} (EN)<br />${anime[i].attributes.titles.ja_jp} (JP)</span>
+                    </div>
+                    <div class="card-content">
+                      <p>Age Rating: ${anime[i].attributes.ageRating}</p>
+                      <p>Rating: ${anime[i].attributes.averageRating}</p>
+                      <p>Status: ${anime[i].attributes.status}</p>
+                      <p>Number of Episodes: ${anime[i].attributes.episodeCount}</p>
+                    </div>
+                  </div>
+                </div>
             `
         }
           document.getElementById('name').value = ''
@@ -45,6 +66,7 @@
 
 
   </script>
+  
 </body>
 
 </html>
