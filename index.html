@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+
+<body>
+  <form>
+    <p>
+      <label for="name">name</label>
+      <input type="text" name="name" id="name">
+    </p>
+    <p>
+      <button id="search">Search</button>
+    </p>
+  </form>
+  <div id="anime"></div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+
+    document.getElementById('search').addEventListener('click', event => {
+      event.preventDefault()
+
+      axios.get(`https://kitsu.io/api/edge/anime?filter[text]=${document.getElementById('name').value}`)
+        .then(res => {
+          let anime = res.data.data
+          for (i=0; i<10; i++){
+            let source = anime[i].attributes.posterImage.tiny
+            console.log(anime[i])
+            document.getElementById('anime').innerHTML += `
+              <h3>English Title: ${anime[i].attributes.titles.en} <br> Japanese Title: ${anime[i].attributes.titles.ja_jp}</h3>
+              <img src='${source}' alt=''>
+            `
+        }
+          document.getElementById('name').value = ''
+        })
+        .catch(err => console.error(err))
+    })
+
+
+  </script>
+</body>
+
+</html>
